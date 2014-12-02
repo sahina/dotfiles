@@ -1,5 +1,5 @@
 (set-default-font "Monaco 15")
-
+(setq js-indent-level 2)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; http://barisyuksel.com/cppmode/.emacs
 ;;
@@ -31,3 +31,25 @@
 (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
 ; turn on ede mode
 (global-ede-mode 1)
+
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-solarized-dark)
+
+(require 'neotree)
+(require 'git)
+(require 'magit)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
