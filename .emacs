@@ -11,6 +11,29 @@
 (require 'cl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Window Size
+;;
+(defun set-frame-size-according-to-resolution ()
+  (interactive)
+  (if window-system
+  (progn
+    ;; use 120 char wide window for largeish displays
+    ;; and smaller 80 column windows for smaller displays
+    ;; pick whatever numbers make sense for you
+    (if (> (x-display-pixel-width) 1280)
+           (add-to-list 'default-frame-alist (cons 'width 120))
+           (add-to-list 'default-frame-alist (cons 'width 80)))
+    ;; for the height, subtract a couple hundred pixels
+    ;; from the screen height (for panels, menubars and
+    ;; whatnot), then divide by the height of a char to
+    ;; get the height we want
+    (add-to-list 'default-frame-alist 
+         (cons 'height (/ (- (x-display-pixel-height) 200)
+                             (frame-char-height)))))))
+
+(set-frame-size-according-to-resolution)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package Management
 ;;
 (load "package")
@@ -35,6 +58,7 @@
 			 multiple-cursors
 			 helm
 			 helm-projectile
+			 exec-path-from-shell
 			 projectile)
   "Default Packages")
 
@@ -59,6 +83,9 @@
 ;; Startup Options
 ;;
 (set-default-font "Inconsolata 18")
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 (setq inhibit-splash-screen t
       initial-scratch-message nil
@@ -113,8 +140,6 @@
       ido-use-virtual-buffers t)
 
 (setq column-number-mode t)
-
-
 (setq js-indent-level 2)
 
 (require 'auto-complete-config)
@@ -166,20 +191,19 @@
   (yank)
   (open-line 1)
   (next-line 1)
-  (yank)
-)
+  (yank))
 (global-set-key (kbd "C-d") 'duplicate-line)
 
 
 ;; http://tkf.github.io/emacs-jedi/latest/
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
-
+(setq jedi:setup-keys t)
 
 (require 'virtualenvwrapper)
 (venv-initialize-interactive-shells) ;; if you want interactive shell support
 (venv-initialize-eshell) ;; if you want eshell support
-
+(setq venv-location "/Users/asahin/.virtualenvs")
 
 (autoload 'markdown-mode "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
@@ -206,13 +230,13 @@
 (require 'helm-config)
 (helm-mode 1)
 
+(require 'helm-projectile)
+(helm-projectile-on)
+
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (setq projectile-switch-project-action 'helm-projectile)
 (setq projectile-enable-caching t)
-
-(require 'helm-projectile)
-(helm-projectile-on)
 
 ;;(require 'icicles)
 ;;(icy-mode 1)
@@ -220,3 +244,5 @@
 ;;(when (require 'elpy nil t)
 ;;  (elpy-enable)
 ;;  (elpy-clean-modeline))
+
+
