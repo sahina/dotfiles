@@ -1,0 +1,13 @@
+{
+  "env": {
+
+  },
+  "plugins": [
+
+  ],
+  "rules": {
+    "strict": [2, "global"],
+    "global-strict": false,
+    "quotes": [2, "single"]
+  }
+}
