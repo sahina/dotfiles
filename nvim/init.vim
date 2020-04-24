@@ -62,6 +62,9 @@ Plug 'tpope/vim-fugitive'
 " rpgrep
 Plug 'jremmen/vim-ripgrep'
 
+" async lint engine
+Plug 'dense-analysis/ale'
+
 call plug#end()
 
 " onedark.vim theme
